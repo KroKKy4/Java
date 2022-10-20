@@ -1,0 +1,59 @@
+package model.model;
+
+import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Observable;
+import model.myShape.MyShape;
+
+
+public class Model extends Observable{
+    Myshape shape;
+    MyShape currentShape;
+    ArrayList<MyShape> list;
+    
+public Model(){
+ list = new ArrayList<>();   
+}
+    
+    
+    
+public Myshape getShape(){    
+    return shape;   
+}
+    
+public void setShape(Myshape shape){
+    this.shape = shape;
+}
+
+public void addShape(){
+    currentShape = shape.clone();
+    list.add(currentShape);
+}
+
+
+public void setFrame(Point2D[] p){
+    currentShape.setFrame(p);
+    setChanged();
+    notifyObservers();
+}
+    
+
+    public Model(MyShape currentShape) {
+        this.currentShape = currentShape;
+        list = new ArrayList<MyShape>();
+        list.add(currentShape);
+    }
+    public void add(MyShape shape){
+        list.add(shape);
+        setChanged();
+        notifyObservers();
+    }
+    
+    public void draw(Graphics2D g){
+
+        for(int i = 0; i < list.size();i++){
+            list.get(i).draw(g);
+        }
+    }
+}
